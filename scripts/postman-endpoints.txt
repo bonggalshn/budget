@@ -1,5 +1,13 @@
 curl --location 'http://localhost:8080/health'
 
+curl --location 'http://localhost:8080/api/v1/auth/register' \
+--header 'Content-Type: application/json' \
+--data '{"username":"yourUsername","email":"user@example.com","password":"securepass123"}'
+
+curl --location 'http://localhost:8080/api/v1/auth/verify' \
+--header 'Content-Type: application/json' \
+--data '{"token":"verification-token-from-email"}'
+
 curl --location 'http://localhost:8080/api/v1/auth/login' \
 --header 'Content-Type: application/json' \
 --data '{"identifier":"yourUsername","password":"yourPassword"}'
