@@ -102,3 +102,162 @@ directories captured above]
 |-----------|------------|-------------------------------------|
 | [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
 | [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+
+## API Impact
+
+| Endpoint | Method | Change Type | Description |
+|-----------|--------|-------------|-------------|
+| [e.g., /api/users] | GET | [New/Modified/Removed] | [Purpose] |
+| [e.g., /api/users/:id] | POST | [New/Modified/Removed] | [Purpose] |
+
+## Tables Impact
+
+| Table | Change Type | Columns Affected | Description |
+|-------|------------|-----------------|-------------|
+| [e.g., users] | [New/Modified/Removed] | [email, password_hash] | [Purpose] |
+| [e.g., sessions] | [New/Modified/Removed] | [user_id, token] | [Purpose] |
+
+## Diagrams
+
+### Sequence Diagram
+
+<!--
+  ACTION REQUIRED: Create a sequence diagram showing the flow of interactions
+  between system components/actors for the primary use case.
+
+  Use Mermaid syntax for rendering:
+  ```mermaid
+  sequenceDiagram
+    participant User
+    participant Frontend
+    participant API
+    participant Database
+    User->>Frontend: Action
+    Frontend->>API: Request
+    API->>Database: Query
+    Database-->>API: Response
+    API-->>Frontend: Result
+    Frontend-->>User: Updated UI
+  ```
+-->
+
+```mermaid
+sequenceDiagram
+    participant [ACTOR]
+    participant [COMPONENT]
+    participant [COMPONENT]
+    [ACTOR]->>[COMPONENT]: [ACTION]
+    [COMPONENT]->>[COMPONENT]: [ACTION]
+    [COMPONENT]-->>[ACTOR]: [RESPONSE]
+```
+
+### Component Diagram
+
+<!--
+  ACTION REQUIRED: Show the high-level architecture and relationships
+  between system components.
+
+  ```mermaid
+  componentDiagram
+    component Frontend {
+      [UI Components]
+    }
+    component API {
+      [Handlers]
+      [Services]
+    }
+    component Database {
+      [Tables]
+    }
+    Frontend --> API
+    API --> Database
+  ```
+-->
+
+```mermaid
+componentDiagram
+    component [COMPONENT_A] {
+      [SUB_COMPONENTS]
+    }
+    component [COMPONENT_B] {
+      [SUB_COMPONENTS]
+    }
+    [COMPONENT_A] --> [COMPONENT_B]
+```
+
+### ERD (Database Changes)
+
+<!--
+  ACTION REQUIRED: If the feature involves database changes, create an ERD
+  showing entity relationships.
+
+  Only include if spec.md mentions: database, storage, model changes, migrations
+
+  ```mermaid
+  erDiagram
+    USER ||--o{ POST : writes
+    POST ||--o{ COMMENT : has
+    USER {
+      string id
+      string email
+      timestamp created_at
+    }
+    POST {
+      string id
+      string title
+      text content
+      string user_id
+      timestamp created_at
+    }
+    COMMENT {
+      string id
+      text content
+      string post_id
+      string user_id
+      timestamp created_at
+    }
+  ```
+-->
+
+```mermaid
+erDiagram
+    [ENTITY_A] ||--o{ [ENTITY_B] : [RELATIONSHIP]
+    [ENTITY_A] {
+      [FIELDS]
+    }
+    [ENTITY_B] {
+      [FIELDS]
+    }
+```
+
+### Use Case Diagram
+
+<!--
+  ACTION REQUIRED: Show the actors and their interactions with the system.
+
+  ```mermaid
+  useCaseDiagram
+    actor User
+    actor Admin
+    rectangle System {
+      usecase Login
+      usecase ViewData
+      usecase ManageData
+    }
+    User --> Login
+    User --> ViewData
+    Admin --> ViewData
+    Admin --> ManageData
+  ```
+-->
+
+```mermaid
+useCaseDiagram
+    actor [ACTOR]
+    rectangle System {
+      usecase [USE_CASE_1]
+      usecase [USE_CASE_2]
+    }
+    [ACTOR] --> [USE_CASE_1]
+    [ACTOR] --> [USE_CASE_2]
+```
