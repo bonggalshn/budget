@@ -28,23 +28,23 @@ Independent Test Criteria per User Story:
 
 ## Phase 1: Setup
 
-- [ ] T001 Initialize Go module in budget-be directory
-- [ ] T002 Create go.mod with dependencies: github.com/jackc/pgx/v5, github.com/golang-jwt/jwt/v5, golang.org/x/crypto/bcrypt, github.com/google/uuid, github.com/go-chi/httprate
-- [ ] T003 Create project directory structure per plan.md
-- [ ] T003a [P] Create tests/user_repository_test.go - implement FindByUsername, FindByEmail tests BEFORE repository (TDD)
-- [ ] T003b [P] Create tests/session_repository_test.go - implement Create, FindByTokenHash tests BEFORE repository (TDD)
-- [ ] T003c [P] Create tests/auth_service_test.go - implement Authenticate, GenerateToken tests BEFORE service (TDD)
+- [X] T001 Initialize Go module in budget-be directory
+- [X] T002 Create go.mod with dependencies: github.com/jackc/pgx/v5, github.com/golang-jwt/jwt/v5, golang.org/x/crypto/bcrypt, github.com/google/uuid, github.com/go-chi/httprate
+- [X] T003 Create project directory structure per plan.md
+- [X] T003a [P] Create tests/user_repository_test.go - implement FindByUsername, FindByEmail tests BEFORE repository (TDD)
+- [X] T003b [P] Create tests/session_repository_test.go - implement Create, FindByTokenHash tests BEFORE repository (TDD)
+- [X] T003c [P] Create tests/auth_service_test.go - implement Authenticate, GenerateToken tests BEFORE service (TDD)
 
 ## Phase 2: Foundational
 
-- [ ] T004 Create internal/config/config.go for environment variables (DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, JWT_SECRET, JWT_EXPIRY)
-- [ ] T005 Create internal/db/pool.go for PostgreSQL connection using github.com/jackc/pgx/v5
-- [ ] T006 [P] Create internal/user/model.go with User entity
-- [ ] T007 [P] Create internal/session/model.go with Session entity
-- [ ] T008 [P] Create internal/loginattempt/model.go with LoginAttempt entity
-- [ ] T009 Create migrations/auth/001_create_users.sql
-- [ ] T010 Create migrations/auth/002_create_sessions.sql
-- [ ] T011 Create migrations/auth/003_create_login_attempts.sql
+- [X] T004 Create internal/config/config.go for environment variables (DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD, JWT_SECRET, JWT_EXPIRY)
+- [X] T005 Create internal/db/pool.go for PostgreSQL connection using github.com/jackc/pgx/v5
+- [X] T006 [P] Create internal/user/model.go with User entity
+- [X] T007 [P] Create internal/session/model.go with Session entity
+- [X] T008 [P] Create internal/loginattempt/model.go with LoginAttempt entity
+- [X] T009 Create migrations/auth/001_create_users.sql
+- [X] T010 Create migrations/auth/002_create_sessions.sql
+- [X] T011 Create migrations/auth/003_create_login_attempts.sql
 
 ## Phase 3: US1 - Successful Login (P1)
 
