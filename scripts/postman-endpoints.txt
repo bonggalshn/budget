@@ -1,0 +1,11 @@
+curl --location 'http://localhost:8080/health'
+
+curl --location 'http://localhost:8080/api/v1/auth/login' \
+--header 'Content-Type: application/json' \
+--data '{"identifier":"yourUsername","password":"yourPassword"}'
+
+curl --location 'http://localhost:8080/api/v1/auth/me' \
+--header 'Authorization: Bearer your-jwt-token'
+
+curl --location --request POST 'http://localhost:8080/api/v1/auth/logout' \
+--header 'Authorization: Bearer your-jwt-token'
