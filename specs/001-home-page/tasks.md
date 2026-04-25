@@ -133,11 +133,11 @@ Phase 8 (Polish)
 
 **Independent Test**: Logged in user visits / → personalized greeting with username, quick links
 
-- [ ] T040 [P] [US4] Create AuthenticatedHomePage component in budget-fe/src/pages/AuthenticatedHomePage.tsx
-- [ ] T041 [US4] Display personalized greeting using username from AuthContext
-- [ ] T042 [US4] Add quick navigation links (dashboard, transactions, budget overview)
-- [ ] T043 [US4] Add logout button
-- [ ] T044 [US4] Verify authenticated home displays for logged-in users on /
+- [x] T040 [P] [US4] Create AuthenticatedHomePage component in budget-fe/src/pages/AuthenticatedHomePage.tsx
+- [x] T041 [US4] Display personalized greeting using username from AuthContext
+- [x] T042 [US4] Add quick navigation links (dashboard, transactions, budget overview)
+- [x] T043 [US4] Add logout button
+- [x] T044 [US4] Verify authenticated home displays for logged-in users on /
 
 **Tests**: None requested
 
