@@ -149,16 +149,16 @@ Phase 8 (Polish)
 
 **Independent Test**: Click logout → session cleared, redirected to public home; Navigate from auth pages → can return to home
 
-- [ ] T045 [P] [US5] Implement logout function in AuthContext
-- [ ] T046 [P] [US6] Add home link/logo to all pages (LoginPage, RegisterPage)
-- [ ] T047 [US5] Add logout button to AuthenticatedHomePage
-- [ ] T048 [US5] Call logout API on click
-- [ ] T049 [US5] Clear token from localStorage
-- [ ] T050 [US5] Reset AuthContext state
-- [ ] T051 [US5] Redirect to public home page on logout
-- [ ] T052 [US5] Verify protected routes redirect to login after logout
-- [ ] T053 [US6] Verify back button returns to public home
-- [ ] T054 [US6] Verify home logo/link navigates to appropriate home page based on auth state
+- [x] T045 [P] [US5] Implement logout function in AuthContext
+- [x] T046 [P] [US6] Add home link/logo to all pages (LoginPage, RegisterPage)
+- [x] T047 [US5] Add logout button to AuthenticatedHomePage
+- [x] T048 [US5] Call logout API on click
+- [x] T049 [US5] Clear token from localStorage
+- [x] T050 [US5] Reset AuthContext state
+- [x] T051 [US5] Redirect to public home page on logout
+- [x] T052 [US5] Verify protected routes redirect to login after logout
+- [x] T053 [US6] Verify back button returns to public home
+- [x] T054 [US6] Verify home logo/link navigates to appropriate home page based on auth state
 
 **Tests**: None requested
 
