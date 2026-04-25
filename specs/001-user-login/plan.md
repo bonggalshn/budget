@@ -103,3 +103,143 @@ tests/
 ```
 
 **Structure Decision**: Single Go service (`internal/auth`) as authentication module within Budget API. Follows Go project conventions per Constitution. Database migrations separate from code. API handlers in `api/v1/` following REST conventions.
+
+## Sequence Diagrams
+
+### Login Flow (US1 - Successful Login)
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as /api/v1/auth/login
+    participant Handler as AuthHandler
+    participant Service as AuthService
+    participant UserRepo as UserRepository
+    participant SessionRepo as SessionRepository
+    participant DB as PostgreSQL
+
+    Note over Client,DB: POST /api/v1/auth/login
+    
+    Client->>API: POST {identifier, password}
+    API->>Handler: Login(ctx, req)
+    Handler->>Service: Authenticate(ctx, identifier, password)
+    Service->>UserRepo: FindByUsername(ctx, identifier)
+    UserRepo->>DB: SELECT * FROM users WHERE username=$1
+    DB-->>UserRepo: user row
+    UserRepo-->>Service: User{...}
+    
+    alt User not found
+        Service->>UserRepo: FindByEmail(ctx, identifier)
+        UserRepo->>DB: SELECT * FROM users WHERE email=$1
+        DB-->>UserRepo: user row
+        UserRepo-->>Service: User{...}
+    end
+    
+    alt User found
+        Service->>Service: bcrypt.CompareHashAndPassword
+        Service->>SessionRepo: Create(ctx, userID)
+        SessionRepo->>DB: INSERT INTO sessions...
+        SessionRepo-->>Service: Session{...}
+        Service->>Service: jwt.NewWithClaims(SigningMethodHS256, claims)
+        Service-->>Handler: token, expires_at
+        Handler-->>API: {token, expires_at, user}
+        API-->>Client: 200 OK {token, expires_at, user}
+    else Invalid credentials
+        Service-->>SessionRepo: Create(ctx, failedAttempt)
+        SessionRepo->>DB: INSERT INTO login_attempts...
+        Service-->>Handler: ErrInvalidCredentials
+        Handler-->>API: 401 Unauthorized
+        API-->>Client: 401 {error_code, message}
+    end
+```
+
+### Authentication Middleware Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as Protected Endpoint
+    participant Middleware as JWTMiddleware
+    participant Service as JWTService
+    participant SessionRepo as SessionRepository
+    participant DB as PostgreSQL
+
+    Note over Client,DB: GET /api/v1/auth/me
+    
+    Client->>API: GET /api/v1/auth/me<br/>Authorization: Bearer <token>
+    API->>Middleware: ServeHTTP(ctx, req)
+    Middleware->>Service: ValidateToken(ctx, token)
+    Service->>Service: jwt.ParseWithClaims
+    
+    alt Token valid
+        Service->>SessionRepo: FindByTokenHash(ctx, tokenHash)
+        SessionRepo->>DB: SELECT * FROM sessions WHERE token_hash=$1
+        DB-->>SessionRepo: session row
+        alt Session valid & not expired
+            SessionRepo-->>Service: Session{...}
+            Service-->>Middleware: claims
+            Middleware->>API: context with userID
+            API->>Client: 200 {user data}
+        else Session expired/invalid
+            Service-->>Middleware: ErrSessionExpired
+            Middleware-->>API: 401 Unauthorized
+            API-->>Client: 401 {session_expired}
+        end
+    else Token invalid
+        Service-->>Middleware: ErrInvalidToken
+        Middleware-->>API: 401 Unauthorized
+        API-->>Client: 401 {unauthorized}
+    end
+```
+
+### Rate Limiting & Account Lockout Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API as /api/v1/auth/login
+    participant RateLimit as httprate.Limiter
+    participant Service as AuthService
+    participant AttemptRepo as LoginAttemptRepository
+    participant DB as PostgreSQL
+
+    Note over Client,DB: Rate limiting + account lockout
+    
+    Client->>API: POST {identifier, password}
+    API->>RateLimit: Allow(key)
+    
+    alt Allow = true
+        RateLimit-->>API: allowed
+        API->>Service: Authenticate(...)
+        
+        alt Authentication failed
+            Service->>AttemptRepo: Create(ctx, failedAttempt)
+            AttemptRepo->>DB: INSERT INTO login_attempts...
+            
+            rect rgb(240, 200, 200)
+                Note over AttemptRepo,DB: Check lockout
+                AttemptRepo->>DB: SELECT COUNT(*) FROM login_attempts<br/>WHERE user_id=$1 AND success=false<br/>AND attempted_at > NOW() - 15min
+                DB-->>AttemptRepo: count
+                alt count >= 5
+                    AttemptRepo-->>Service: ErrAccountLocked
+                    Service-->>API: 429 Too Many Requests
+                    API-->>Client: 429 {account_locked}
+                end
+            end
+        end
+    else Allow = false
+        RateLimit-->>API: 429 Too Many Requests
+        API-->>Client: 429 {rate_limit_exceeded}
+    end
+```
+
+## Component Interactions
+
+| Component | Responsibility | Public API |
+|-----------|--------------|------------|
+| AuthHandler | HTTP request/response | Login, Me, Logout |
+| AuthService | Authentication logic | Authenticate, GenerateToken, ValidateToken |
+| UserRepository | User data access | FindByUsername, FindByEmail |
+| SessionRepository | Session management | Create, FindByTokenHash, Invalidate |
+| LoginAttemptRepository | Attempt tracking | Create, CountRecent |
+| JWTMiddleware | Token validation | ServeHTTP |
