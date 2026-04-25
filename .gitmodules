@@ -1,0 +1,6 @@
+[submodule "budget-be"]
+	path = budget-be
+	url = https://github.com/bonggalshn/budget-be.git
+[submodule "budget-fe"]
+	path = budget-fe
+	url = https://github.com/bonggalshn/budget-fe.git
