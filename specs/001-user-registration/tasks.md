@@ -40,6 +40,7 @@
 - [ ] T013 [US1] Add duplicate email check in `budget-be/internal/user/repository.go`
 - [ ] T014 [US1] Add duplicate username check in `budget-be/internal/user/repository.go`
 - [ ] T015 [US1] Add bcrypt password hashing in `budget-be/internal/auth/service.go`
+- [ ] T016 [US1] Add email format validation in `budget-be/internal/auth/service.go`
 
 **Checkpoint**: User Story 1 functional - registration works with validation
 
@@ -51,10 +52,10 @@
 
 **Independent Test**: POST weak password → 400 error with clear message
 
-- [ ] T016 [US2] Add password validation function in `budget-be/internal/auth/service.go`
-- [ ] T017 [US2] Add password too short error message in `budget-be/internal/auth/handler.go`
-- [ ] T018 [US2] Add password needs number error message in `budget-be/internal/auth/handler.go`
-- [ ] T019 [US2] Integrate validation into Register handler
+- [ ] T017 [US2] Add password validation function in `budget-be/internal/auth/service.go`
+- [ ] T018 [US2] Add password too short error message in `budget-be/internal/auth/handler.go`
+- [ ] T019 [US2] Add password needs number error message in `budget-be/internal/auth/handler.go`
+- [ ] T020 [US2] Integrate validation into Register handler
 
 **Checkpoint**: User Story 2 functional - weak passwords rejected with clear messages
 
@@ -66,13 +67,13 @@
 
 **Independent Test**: Register → Verify token → Can login
 
-- [ ] T020 [P] [US3] Add token generation in `budget-be/internal/auth/service.go`
-- [ ] T021 [P] [US3] Add CreateVerificationToken method in `budget-be/internal/user/repository.go`
-- [ ] T022 [US3] Add VerifyEmail method to auth service in `budget-be/internal/auth/service.go`
-- [ ] T023 [US3] Add Verify handler in `budget-be/internal/auth/handler.go`
-- [ ] T024 [US3] Add verify route in `budget-be/api/v1/auth/routes.go`
-- [ ] T025 [US3] Update Login to require email_verified in `budget-be/internal/auth/service.go`
-- [ ] T026 [US3] Add expired/invalid token error in `budget-be/internal/auth/handler.go`
+- [ ] T021 [P] [US3] Add token generation in `budget-be/internal/auth/service.go`
+- [ ] T022 [P] [US3] Add CreateVerificationToken method in `budget-be/internal/user/repository.go`
+- [ ] T023 [US3] Add VerifyEmail method to auth service in `budget-be/internal/auth/service.go`
+- [ ] T024 [US3] Add Verify handler in `budget-be/internal/auth/handler.go`
+- [ ] T025 [US3] Add verify route in `budget-be/api/v1/auth/routes.go`
+- [ ] T026 [US3] Update Login to require email_verified in `budget-be/internal/auth/service.go`
+- [ ] T027 [US3] Add expired/invalid token error in `budget-be/internal/auth/handler.go`
 
 **Checkpoint**: User Story 3 functional - email verification flow complete
 
@@ -80,10 +81,10 @@
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T027 [P] Update quickstart.md with registration examples
-- [ ] T028 [P] Add migration rollback scripts
-- [ ] T029 Run `gofmt` on all modified files in `budget-be/`
-- [ ] T030 Run tests `go test ./...` in `budget-be/`
+- [ ] T028 [P] Update quickstart.md with registration examples
+- [ ] T029 [P] Add migration rollback scripts
+- [ ] T030 Run `gofmt` on all modified files in `budget-be/`
+- [ ] T031 Run tests `go test ./...` in `budget-be/`
 
 ---
 
@@ -107,7 +108,8 @@
 ### Parallel Opportunities
 
 - T008, T009 can run in parallel (different structs)
-- T020, T021 can run in parallel (token generation + DB method)
+- T016, T008 can run in parallel (validation + structs)
+- T021, T022 can run in parallel (token generation + DB method)
 
 ---
 
@@ -133,10 +135,10 @@
 
 | Metric | Count |
 |--------|-------|
-| Total Tasks | 30 |
+| Total Tasks | 31 |
 | Phase 1 (Setup) | 3 |
 | Phase 2 (Foundational) | 4 |
-| Phase 3 (US1) | 8 |
+| Phase 3 (US1) | 9 |
 | Phase 4 (US2) | 4 |
 | Phase 5 (US3) | 7 |
 | Phase 6 (Polish) | 4 |
