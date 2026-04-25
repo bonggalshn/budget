@@ -75,9 +75,9 @@ Phase 8 (Polish)
 
 **Independent Test**: Load / → see greeting, login button, register button
 
-- [ ] T016 [P] [US1] Create PublicHomePage component in budget-fe/src/pages/PublicHomePage.tsx
-- [ ] T017 [P] [US1] Add navigation links to login and register in PublicHomePage
-- [ ] T018 [US1] Verify PublicHomePage displays on root route /
+- [x] T016 [P] [US1] Create PublicHomePage component in budget-fe/src/pages/PublicHomePage.tsx
+- [x] T017 [P] [US1] Add navigation links to login and register in PublicHomePage
+- [x] T018 [US1] Verify PublicHomePage displays on root route /
 
 **Tests**: None requested
 
