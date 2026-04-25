@@ -92,18 +92,20 @@ User passwords are securely hashed and handled with industry best practices to p
 - **FR-002**: System MUST validate the provided username or email and password against stored credentials in the database
 - **FR-003**: System MUST return a session token (JWT or similar) on successful authentication
 - **FR-004**: System MUST include token expiry information in the login response (expires_at timestamp)
-- **FR-005**: System MUST return HTTP 401 Unauthorized with generic error message "Invalid username/email or password" for both wrong identifier and wrong password (no user enumeration)
+- **FR-005**: System MUST return HTTP 401 Unauthorized with generic error message "Invalid username/email or password" for both wrong identifier and wrong password (no user enumeration). This message must NOT reveal whether the username/email exists in the system or which credential (username/email vs password) was incorrect.
 - **FR-006**: System MUST hash passwords using bcrypt with cost ≥ 12 before storage
 - **FR-007**: System MUST track failed login attempts per login identifier/IP address combination
 - **FR-008**: System MUST temporarily lock accounts after 5 failed login attempts within a 15-minute window
 - **FR-009**: System MUST provide an HTTP endpoint GET `/api/v1/auth/me` to retrieve current authenticated user's profile
 - **FR-010**: System MUST provide an HTTP endpoint POST `/api/v1/auth/logout` to invalidate the current session token
 - **FR-011**: System MUST enforce rate limiting on login endpoint (max 10 attempts per IP per minute, max 5 per username per 15 minutes)
-- **FR-012**: System MUST validate request format (application/json) and return HTTP 400 Bad Request for malformed requests
-- **FR-013**: System MUST use timing-safe password comparison to prevent timing attacks
+- **FR-012**: System MUST validate request format (application/json) and return HTTP 400 Bad Request for malformed requests. The identifier field MUST be 1-255 characters; password field MUST be 8-72 characters.
+- **FR-012a**: System MUST use parameterized queries to prevent SQL injection attacks on login endpoint.
+- **FR-013**: System MUST use timing-safe password comparison to prevent timing attacks. Implementation MUST use `crypto/subtle.ConstantTimeCompare` in Go.
 - **FR-014**: System MUST never log or expose passwords in any logs, error messages, or responses
 - **FR-015**: System MUST return HTTP 401 Unauthorized for requests with missing or invalid Authorization header on protected endpoints
 - **FR-016**: System MUST support token-based authentication via `Authorization: Bearer <token>` header on all protected endpoints
+- **FR-017**: System MUST include standard rate limit headers (X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset) in all auth endpoint responses
 
 ### Key Entities *(include if feature involves data)*
 
@@ -137,11 +139,19 @@ User passwords are securely hashed and handled with industry best practices to p
 - **SC-009**: Rate limiting prevents more than 10 login attempts per IP per minute (HTTP 429 response)
 - **SC-010**: Timing-safe password comparison prevents timing attacks (verified through code review and benchmark tests)
 
+## API Contract IDs
+
+The following requirement IDs are used in this specification:
+- **FR-XXX**: Functional Requirements (FR-001 to FR-017)
+- **SC-XXX**: Success Criteria (SC-001 to SC-010)
+- **Edge Cases**: User Scenarios Edge Cases (documented inline)
+
 ## Assumptions
 
 - **User Management Scope**: This spec covers authentication only. User registration (creating new accounts) is assumed to be handled in a separate feature ("User Registration"). For this feature, test users must be created manually in the database or via separate admin tooling. Users are identified by both username and email; either may be used at login.
 - **Session Storage**: Sessions are stored in the PostgreSQL database. In-memory session storage (e.g., Redis) is not included in v1; can be optimized in future iterations.
-- **Token Format**: JWT (JSON Web Tokens) are used for session tokens. This provides stateless authentication with built-in expiry. Token is signed with a server secret key (configuration TBD in planning phase).
+- **Token Format**: JWT (JSON Web Tokens) are used for session tokens. This provides stateless authentication with built-in expiry. Token is signed with a server secret key stored in `JWT_SECRET` environment variable.
+- **Default Session Expiry**: Session tokens expire after 24 hours by default. This is configurable via environment variable `JWT_EXPIRY` (e.g., `24h`, `1h`, `7d`).
 - **Password Reset**: Password reset functionality is out of scope for this feature. Users with forgotten passwords cannot self-service in v1; manual admin reset required.
 - **Username/Email Login**: Login accepts either username or email as the identifier; users may choose whichever is more convenient.- **Multi-Factor Authentication (MFA)**: MFA is not required for v1. Single-factor (username/password) authentication is sufficient for initial release.
 - **Email Verification**: User email is not verified before account creation. Email/username are assumed pre-validated during user account setup (out of scope for login feature).
