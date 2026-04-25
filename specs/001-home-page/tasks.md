@@ -40,13 +40,13 @@ Phase 8 (Polish)
 
 **Goal**: Initialize frontend project structure
 
-- [ ] T001 Create project structure in budget-fe/src/ per plan.md
-- [ ] T002 Configure Vite with TypeScript strict mode in vite.config.ts
-- [ ] T003 Set up Tailwind CSS configuration in tailwind.config.js
-- [ ] T004 Add React Router v6 dependencies in package.json
-- [ ] T005 Add React Hook Form and Zod dependencies in package.json
-- [ ] T006 Add Vitest and React Testing Library dependencies in package.json
-- [ ] T007 Run npm install to install all dependencies
+- [x] T001 Create project structure in budget-fe/src/ per plan.md
+- [x] T002 Configure Vite with TypeScript strict mode in vite.config.ts
+- [x] T003 Set up Tailwind CSS configuration in tailwind.config.js
+- [x] T004 Add React Router v6 dependencies in package.json
+- [x] T005 Add React Hook Form and Zod dependencies in package.json
+- [x] T006 Add Vitest and React Testing Library dependencies in package.json
+- [x] T007 Run npm install to install all dependencies
 
 **Independent Test**: Project structure exists, dev server starts without errors
 
@@ -56,14 +56,14 @@ Phase 8 (Polish)
 
 **Goal**: Create shared infrastructure needed by all user stories
 
-- [ ] T008 [P] Define TypeScript types in budget-fe/src/types/auth.ts
-- [ ] T009 [P] Create API service layer in budget-fe/src/services/api.ts
-- [ ] T010 Create AuthContext in budget-fe/src/context/AuthContext.tsx
-- [ ] T011 Create ProtectedRoute component in budget-fe/src/components/ProtectedRoute.tsx
-- [ ] T012 Create ErrorBoundary component in budget-fe/src/components/ErrorBoundary.tsx
-- [ ] T013 Configure React Router in budget-fe/src/App.tsx with routes: /, /login, /register
-- [ ] T014 Add Button component in budget-fe/src/components/Button.tsx
-- [ ] T015 Add Greeting component in budget-fe/src/components/Greeting.tsx
+- [x] T008 [P] Define TypeScript types in budget-fe/src/types/auth.ts
+- [x] T009 [P] Create API service layer in budget-fe/src/services/api.ts
+- [x] T010 Create AuthContext in budget-fe/src/context/AuthContext.tsx
+- [x] T011 Create ProtectedRoute component in budget-fe/src/components/ProtectedRoute.tsx
+- [x] T012 Create ErrorBoundary component in budget-fe/src/components/ErrorBoundary.tsx
+- [x] T013 Configure React Router in budget-fe/src/App.tsx with routes: /, /login, /register
+- [x] T014 Add Button component in budget-fe/src/components/Button.tsx
+- [x] T015 Add Greeting component in budget-fe/src/components/Greeting.tsx
 
 **Independent Test**: AuthContext provides user state, API service makes requests, ProtectedRoute guards routes
 
@@ -112,7 +112,8 @@ Phase 8 (Polish)
 
 - [ ] T029 [P] [US3] Create RegisterPage component in budget-fe/src/pages/RegisterPage.tsx
 - [ ] T030 [US3] Implement form with username, email, and password fields in RegisterPage
-- [ ] T031 [US3] Add React Hook Form with Zod validation (username required, email valid format, password min 8 chars with number)
+- [ ] T031 [US3] Add React Hook Form with Zod validation (username required, email valid format, password min 12 chars with uppercase, lowercase, number and special character) [FR-017]
+- [ ] T031a [US3] Implement password validation per FR-017 in RegisterPage form
 - [ ] T032 [US3] Connect form to API register endpoint on submit
 - [ ] T033 [US3] Handle loading state during registration
 - [ ] T034 [US3] Display error message on failed registration (duplicate_email, username_taken, weak_password)
@@ -175,6 +176,12 @@ Phase 8 (Polish)
 - [ ] T060 Verify all forms show appropriate error states
 - [ ] T061 Test edge case: expired token handling
 - [ ] T062 Verify error boundary catches component crashes gracefully
+- [ ] T063 Test responsive design across mobile, tablet, and desktop viewports
+- [ ] T064 Measure and optimize login completion time to ensure < 30 seconds
+- [ ] T065 Measure and optimize registration completion time to ensure < 60 seconds
+- [ ] T066 Measure and optimize personalized content display time to ensure < 2 seconds
+- [ ] T067 Conduct user testing to ensure 100% of unauthenticated users can locate both Login and Register options on first view [SC-002]
+- [ ] T068 Measure and optimize navigation between pages to complete within 1 second [SC-003]
 
 **Tests**: None requested
 
@@ -184,7 +191,7 @@ Phase 8 (Polish)
 
 | Metric | Count |
 |--------|-------|
-| Total Tasks | 62 |
+| Total Tasks | 69 |
 | Phase 1 (Setup) | 7 |
 | Phase 2 (Foundational) | 8 |
 | Phase 3 (US1) | 3 |
@@ -192,7 +199,7 @@ Phase 8 (Polish)
 | Phase 5 (US3) | 11 |
 | Phase 6 (US4) | 5 |
 | Phase 7 (US5+6) | 10 |
-| Phase 8 (Polish) | 8 |
+| Phase 8 (Polish) | 15 |
 
 **Parallel Opportunities**: 15 tasks marked [P] across phases
 **MVP Scope**: Phase 3 (US1) - Public Home Page only

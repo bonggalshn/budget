@@ -112,9 +112,7 @@ As a user who decides not to proceed with authentication, I want to return to th
 
 ### Functional Requirements
 
-- **FR-001**: System MUST display a welcoming greeting message to unauthenticated users on the public home page
-- **FR-002**: System MUST provide a visible Login button or link on the public home page
-- **FR-003**: System MUST provide a visible Register button or link on the public home page
+- **FR-001**: System MUST display a welcoming greeting message and provide visible Login and Register buttons or links on the public home page
 - **FR-004**: System MUST navigate to the login page when Login is clicked
 - **FR-005**: System MUST navigate to the registration page when Register is clicked
 - **FR-006**: System MUST provide a way to return to the home page from other pages
@@ -128,14 +126,15 @@ As a user who decides not to proceed with authentication, I want to return to th
 - **FR-014**: System MUST provide quick access links to dashboard features on the authenticated home page
 - **FR-015**: System MUST provide a logout option for authenticated users
 - **FR-016**: System MUST terminate the user session and redirect to public home page upon logout
+- **FR-017**: System MUST validate password requirements (minimum 12 characters with uppercase, lowercase, number, and special character)
 
 ### Key Entities
 
-- **PublicHomePage**: The landing page for unauthenticated users, containing greeting and navigation to login/register
-- **LoginPage**: Authentication form with identifier (username or email) and password inputs
-- **RegisterPage**: Registration form for new user account creation
-- **AuthenticatedHomePage**: Personalized dashboard entry point for logged-in users
-- **Greeting**: Text content welcoming users to the Budget application
+- **PublicHomePage.tsx**: The landing page for unauthenticated users, containing greeting and navigation to login/register
+- **LoginPage.tsx**: Authentication form with identifier (username or email) and password inputs
+- **RegisterPage.tsx**: Registration form for new user account creation
+- **AuthenticatedHomePage.tsx**: Personalized dashboard entry point for logged-in users
+- **Greeting**: Text content welcoming users to the Budget application with specific message: "Welcome to Budget - Your Personal Finance Companion"
 - **NavigationAction**: Login and Register buttons with associated routing behavior
 - **User**: Account holder with credentials and profile information
 
@@ -143,8 +142,8 @@ As a user who decides not to proceed with authentication, I want to return to th
 
 ### Measurable Outcomes
 
-- **SC-001**: Users can access any page within 2 seconds of requesting the URL
-- **SC-002**: 100% of unauthenticated users can locate both Login and Register options on first view
+- **SC-001**: Users can access any page within 2 seconds of requesting the URL (under normal load conditions with cached assets)
+- **SC-002**: 100% of unauthenticated users can locate both Login and Register options on first view (measured via user testing and analytics)
 - **SC-003**: Navigation between pages completes within 1 second
 - **SC-004**: All pages display correctly across desktop, tablet, and mobile viewports
 - **SC-005**: Users can successfully log in with valid credentials in under 30 seconds
@@ -165,5 +164,6 @@ As a user who decides not to proceed with authentication, I want to return to th
 - The home page is accessible at the root URL path
 - Session management will be handled via JWT tokens stored securely
 - Registration requires email uniqueness validation
-- Password requirements: minimum 8 characters with at least one number
+- Password requirements: minimum 12 characters with uppercase, lowercase, number, and special character
+- TypeScript strict mode will be enabled with all strict flags (strict: true, noImplicitAny: true)
 - Email verification is out of scope for this feature (separate journey)
