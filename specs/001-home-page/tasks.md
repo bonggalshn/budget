@@ -89,16 +89,16 @@ Phase 8 (Polish)
 
 **Independent Test**: Submit valid credentials → access authenticated home; Submit invalid → error message
 
-- [ ] T019 [P] [US2] Create LoginPage component in budget-fe/src/pages/LoginPage.tsx
-- [ ] T020 [US2] Implement form with identifier and password fields in LoginPage
-- [ ] T021 [US2] Add React Hook Form with Zod validation (identifier required, password min 8 chars)
-- [ ] T022 [US2] Connect form to AuthContext login method on submit
-- [ ] T023 [US2] Handle loading state during authentication
-- [ ] T024 [US2] Display error message on failed login (invalid_credentials, account_locked, email_not_verified)
-- [ ] T025 [US2] Add link to register page
-- [ ] T026 [US2] Add link to home page (logo/header)
-- [ ] T027 [US2] Redirect to authenticated home on success
-- [ ] T028 [US2] Verify LoginPage displays on /login route
+- [x] T019 [P] [US2] Create LoginPage component in budget-fe/src/pages/LoginPage.tsx
+- [x] T020 [US2] Implement form with identifier and password fields in LoginPage
+- [x] T021 [US2] Add React Hook Form with Zod validation (identifier required, password min 8 chars)
+- [x] T022 [US2] Connect form to AuthContext login method on submit
+- [x] T023 [US2] Handle loading state during authentication
+- [x] T024 [US2] Display error message on failed login (invalid_credentials, account_locked, email_not_verified)
+- [x] T025 [US2] Add link to register page
+- [x] T026 [US2] Add link to home page (logo/header)
+- [x] T027 [US2] Redirect to authenticated home on success
+- [x] T028 [US2] Verify LoginPage displays on /login route
 
 **Tests**: None requested
 
@@ -110,18 +110,18 @@ Phase 8 (Polish)
 
 **Independent Test**: Submit valid data → account created, redirect to login; Submit duplicate → error message
 
-- [ ] T029 [P] [US3] Create RegisterPage component in budget-fe/src/pages/RegisterPage.tsx
-- [ ] T030 [US3] Implement form with username, email, and password fields in RegisterPage
-- [ ] T031 [US3] Add React Hook Form with Zod validation (username required, email valid format, password min 12 chars with uppercase, lowercase, number and special character) [FR-017]
-- [ ] T031a [US3] Implement password validation per FR-017 in RegisterPage form
-- [ ] T032 [US3] Connect form to API register endpoint on submit
-- [ ] T033 [US3] Handle loading state during registration
-- [ ] T034 [US3] Display error message on failed registration (duplicate_email, username_taken, weak_password)
-- [ ] T035 [US3] Show success message "Check your email to verify your account"
-- [ ] T036 [US3] Add link to login page
-- [ ] T037 [US3] Add link to home page (logo/header)
-- [ ] T038 [US3] Redirect to login on success
-- [ ] T039 [US3] Verify RegisterPage displays on /register route
+- [x] T029 [P] [US3] Create RegisterPage component in budget-fe/src/pages/RegisterPage.tsx
+- [x] T030 [US3] Implement form with username, email, and password fields in RegisterPage
+- [x] T031 [US3] Add React Hook Form with Zod validation (username required, email valid format, password min 12 chars with uppercase, lowercase, number and special character) [FR-017]
+- [x] T031a [US3] Implement password validation per FR-017 in RegisterPage form
+- [x] T032 [US3] Connect form to API register endpoint on submit
+- [x] T033 [US3] Handle loading state during registration
+- [x] T034 [US3] Display error message on failed registration (duplicate_email, username_taken, weak_password)
+- [x] T035 [US3] Show success message "Check your email to verify your account"
+- [x] T036 [US3] Add link to login page
+- [x] T037 [US3] Add link to home page (logo/header)
+- [x] T038 [US3] Redirect to login on success
+- [x] T039 [US3] Verify RegisterPage displays on /register route
 
 **Tests**: None requested
 
