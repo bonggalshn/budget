@@ -52,6 +52,12 @@ You **MUST** consider the user input before proceeding (if not empty).
 - Push with `git push -u origin <feature-branch-name>`
 - **NEVER** commit directly to main/master in submodules
 
+**Git Commit and Push Rule**:
+- **ALL** git commit and push operations **MUST require user approval**
+- Do not auto-commit; always prompt the user before committing
+- Show what will be committed with `git diff --stat`
+- Wait for explicit "yes" confirmation before executing git commands
+
 ## Outline
 
 1. Run `.specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks` from repo root and parse FEATURE_DIR and AVAILABLE_DOCS list. All paths must be absolute. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
@@ -69,6 +75,7 @@ You **MUST** consider the user input before proceeding (if not empty).
        Please create and switch to feature branch:
        git checkout -b <FEATURE_NAME>
        ```
+     - **Always require user approval before creating branch**: Prompt user with confirmation
      - Verify the feature branch name matches the parent's active feature branch (from step 1)
      - If no feature branch exists, create one matching the parent module's feature branch
    - If not a submodule, proceed normally
@@ -225,6 +232,25 @@ Note: This command assumes a complete task breakdown exists in tasks.md. If task
 11. **Push to feature branch (for submodules)**:
     - If this is a submodule:
       - Verify we pushed to the feature branch (not main/master)
-      - Run `git push` to origin `<feature-branch-name>`
+      - Check `git status` to show pending changes
+      - **Always require user approval** before committing:
+        ```
+        ## Commit and Push Required
+
+        Ready to commit changes. Do you want to proceed? (yes/no)
+        
+        Review the changes:
+        git diff --stat
+        ```
+      - Wait for user response
+      - If user says "yes", proceed with commit and push
+      - If user says "no" or "wait", display the git commands they can run manually:
+        ```
+        # To commit manually:
+        cd <submodule-path>
+        git add -A
+        git commit -m "<message>"
+        git push
+        ```
       - If push fails, output guidance for creating PR
-    - If not a submodule, proceed normally
+    - If not a submodule, still require user approval for all git operations

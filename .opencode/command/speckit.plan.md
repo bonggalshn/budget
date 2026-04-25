@@ -52,6 +52,21 @@ You **MUST** consider the user input before proceeding (if not empty).
     ```
 - If no hooks are registered or `.specify/extensions.yml` does not exist, skip silently
 
+**Branch Protection Rule for Submodules**:
+- If the root project (parent module) uses submodules, direct commits to `main` or `master` branch are **STRICTLY PROHIBITED**.
+- Before planning, check if the current working directory is a submodule
+- If implementing in a submodule, **MUST** create and use a feature branch matching the parent's feature branch name
+- Use `git checkout -b <feature-branch-name>` to create the feature branch
+- Push with `git push -u origin <feature-branch-name>`
+- **NEVER** commit directly to main/master in submodules
+- **Always require user approval before creating branch**: Prompt user with confirmation
+
+**Git Commit and Push Rule**:
+- **ALL** git commit and push operations **MUST require user approval**
+- Do not auto-commit; always prompt the user before committing
+- Show what will be committed with `git diff --stat`
+- Wait for explicit "yes" confirmation before executing git commands
+
 ## Outline
 
 1. **Setup**: Run `.specify/scripts/powershell/setup-plan.ps1 -Json` from repo root and parse JSON for FEATURE_SPEC, IMPL_PLAN, SPECS_DIR, BRANCH. For single quotes in args like "I'm Groot", use escape syntax: e.g 'I'\''m Groot' (or double-quote if possible: "I'm Groot").
