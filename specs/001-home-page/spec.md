@@ -118,7 +118,7 @@ As a user who decides not to proceed with authentication, I want to return to th
 - **FR-004**: System MUST navigate to the login page when Login is clicked
 - **FR-005**: System MUST navigate to the registration page when Register is clicked
 - **FR-006**: System MUST provide a way to return to the home page from other pages
-- **FR-007**: System MUST display a login page with email and password fields
+- **FR-007**: System MUST display a login page with identifier (username or email) and password fields
 - **FR-008**: System MUST authenticate users with valid credentials
 - **FR-009**: System MUST display an error message for invalid login credentials
 - **FR-010**: System MUST display a registration page with required fields
@@ -132,7 +132,7 @@ As a user who decides not to proceed with authentication, I want to return to th
 ### Key Entities
 
 - **PublicHomePage**: The landing page for unauthenticated users, containing greeting and navigation to login/register
-- **LoginPage**: Authentication form with email and password inputs
+- **LoginPage**: Authentication form with identifier (username or email) and password inputs
 - **RegisterPage**: Registration form for new user account creation
 - **AuthenticatedHomePage**: Personalized dashboard entry point for logged-in users
 - **Greeting**: Text content welcoming users to the Budget application
@@ -151,6 +151,13 @@ As a user who decides not to proceed with authentication, I want to return to th
 - **SC-006**: Users can successfully register a new account in under 60 seconds
 - **SC-007**: Authenticated users see their personalized content within 2 seconds of login
 
+## Clarifications
+
+### Session 2026-04-26
+
+- Q: Login field name? → A: identifier (username or email)
+- Q: Email verification scope? → A: Out of scope for this feature; will be covered in separate journey
+
 ## Assumptions
 
 - User authentication functionality (login/register) will be implemented via the backend API
@@ -158,4 +165,5 @@ As a user who decides not to proceed with authentication, I want to return to th
 - The home page is accessible at the root URL path
 - Session management will be handled via JWT tokens stored securely
 - Registration requires email uniqueness validation
-- Password requirements: minimum 8 characters
+- Password requirements: minimum 8 characters with at least one number
+- Email verification is out of scope for this feature (separate journey)

@@ -83,6 +83,8 @@
 
 ## POST /api/v1/auth/verify
 
+> **Note**: This endpoint is part of a separate email verification feature journey. Included here for reference only.
+
 **Description**: Verify user email address
 
 ### Request

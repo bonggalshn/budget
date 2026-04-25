@@ -24,11 +24,6 @@ interface RegisterRequest {
   password: string;
 }
 
-// Verify email request
-interface VerifyRequest {
-  token: string;
-}
-
 // Login response (success)
 interface LoginResponse {
   token: string;
@@ -40,11 +35,6 @@ interface LoginResponse {
 interface RegisterResponse {
   message: string;
   user_id: string;
-}
-
-// Verify response (success)
-interface VerifyResponse {
-  message: string;
 }
 
 // Logout response (success)
@@ -113,25 +103,18 @@ stateDiagram-v2
   Unauthenticated --> RegisterPage: Click Register
   LoginPage --> Unauthenticated: Cancel
   RegisterPage --> Unauthenticated: Cancel
-  Unauthenticated --> PendingVerification: Register success (no token!)
-  PendingVerification --> Unauthenticated: Email verified
   Unauthenticated --> Authenticated: Login success
   Authenticated --> Unauthenticated: Logout
   Authenticated --> Authenticated: View home page
 ```
 
+> **Note**: Email verification flow (Register → Verify → Login) is out of scope. Backend requires email verification before login.
+
 ## Data Flow
 
 1. **User loads app** → Check localStorage for token → If token exists, call `/me` → Set AuthContext state
 2. **User registers** → POST to `/register` → Show "check email" message (no auto-login)
-3. **User verifies email** → Click link with token → POST to `/verify` → Show success → Redirect to login
-4. **User logs in** → POST credentials to `/login` → Store token in localStorage → Update AuthContext → Navigate to authenticated home
-5. **User logs out** → POST to `/logout` → Clear localStorage → Reset AuthContext → Navigate to public home
+3. **User logs in** → POST credentials to `/login` → Store token in localStorage → Update AuthContext → Navigate to authenticated home
+4. **User logs out** → POST to `/logout` → Clear localStorage → Reset AuthContext → Navigate to public home
 
-## Email Verification Flow
-
-```
-Register → Email sent with verification link → Click link → Verify → Login
-```
-
-> **Important**: Registration does NOT grant immediate access. Users must verify their email before logging in.
+> **Important**: Email verification is required before login. Users must verify their email after registration. The `/verify` endpoint exists but is part of a separate feature journey.
