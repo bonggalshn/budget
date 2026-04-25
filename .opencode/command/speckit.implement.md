@@ -51,6 +51,8 @@ You **MUST** consider the user input before proceeding (if not empty).
 - Use `git checkout -b <feature-branch-name>` to create the feature branch
 - Push with `git push -u origin <feature-branch-name>`
 - **NEVER** commit directly to main/master in submodules
+- **ALL** submodule changes must follow the same feature branch pattern as the parent repository
+- Submodule feature branches are merged to main ONLY after parent feature branch is merged and with explicit user approval
 
 **Git Commit and Push Rule**:
 - **ALL** git commit and push operations **MUST require user approval**
@@ -230,27 +232,28 @@ Note: This command assumes a complete task breakdown exists in tasks.md. If task
      - If no hooks are registered or `.specify/extensions.yml` does not exist, skip silently
 
 11. **Push to feature branch (for submodules)**:
-    - If this is a submodule:
-      - Verify we pushed to the feature branch (not main/master)
-      - Check `git status` to show pending changes
-      - **Always require user approval** before committing:
-        ```
-        ## Commit and Push Required
+     - If this is a submodule:
+       - Verify we pushed to the feature branch (not main/master)
+       - Check `git status` to show pending changes
+       - **Always require user approval** before committing:
+         ```
+         ## Commit and Push Required
 
-        Ready to commit changes. Do you want to proceed? (yes/no)
-        
-        Review the changes:
-        git diff --stat
-        ```
-      - Wait for user response
-      - If user says "yes", proceed with commit and push
-      - If user says "no" or "wait", display the git commands they can run manually:
-        ```
-        # To commit manually:
-        cd <submodule-path>
-        git add -A
-        git commit -m "<message>"
-        git push
-        ```
-      - If push fails, output guidance for creating PR
-    - If not a submodule, still require user approval for all git operations
+         Ready to commit changes. Do you want to proceed? (yes/no)
+         
+         Review the changes:
+         git diff --stat
+         ```
+       - Wait for user response
+       - If user says "yes", proceed with commit and push to feature branch
+       - If user says "no" or "wait", display the git commands they can run manually:
+         ```
+         # To commit manually to feature branch:
+         cd <submodule-path>
+         git add -A
+         git commit -m "<message>"
+         git push origin <feature-branch-name>
+         ```
+       - If push fails, output guidance for creating PR from feature branch
+       - **NEVER push to main/master - manual user approval required for all main/master operations**
+     - If not a submodule, still require user approval for all git operations
