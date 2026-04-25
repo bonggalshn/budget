@@ -1,19 +1,19 @@
-<!-- SYNC IMPACT REPORT: Constitution v1.1.0 amended
-- Version: 1.0.1 → 1.1.0 (MINOR: backend budget service domain principles)
-- Added: Data Integrity and Auditability principle, API Design and Contract Stability principle, Backend Service Requirements section
-- Updated: Purpose (backend budget planner context), User Experience Consistency (API-focused), Core Principles (financial data emphasis)
-- New focus: Financial data accuracy, audit trails, API versioning, system reliability, security for sensitive data
-- Templates: Pending review for financial domain context
+<!-- SYNC IMPACT REPORT: Constitution v1.3.0 amended
+- Version: 1.2.0 → 1.3.0 (MINOR: expanded frontend service requirements section)
+- Added: Frontend Service Requirements section with React/TypeScript specifics
+- Updated: Technology Stack (more specific React tooling), Code Quality Discipline (React patterns)
+- Templates: Pending review for frontend context
 -->
 
 # Budget Constitution
 
 ## Purpose
 
-This Constitution establishes the core engineering principles and governance standards for the Budget backend service. The Budget application provides a reliable, secure, and consistent API for budget planning and financial data management. This Constitution ensures all development activities maintain the trust, accuracy, and reliability required for a financial service while upholding Go/PostgreSQL best practices.
+This Constitution establishes the core engineering principles and governance standards for the Budget application. The Budget application consists of a Go/PostgreSQL backend service and a React/TypeScript frontend, providing a reliable, secure, and consistent experience for budget planning and financial data management. This Constitution ensures all development activities maintain the trust, accuracy, and reliability required for a financial service while upholding Go/PostgreSQL and React/TypeScript best practices.
 
 ## Technology Stack
 
+### Backend
 **Language**: Go (Golang) — Modern, statically typed, compiled language optimized for concurrent systems  
 **Primary Database**: PostgreSQL — Robust, ACID-compliant relational database with JSON support  
 **Deployment Target**: Linux servers (containers/VMs)  
@@ -21,11 +21,28 @@ This Constitution establishes the core engineering principles and governance sta
 **Testing Framework**: Go's standard `testing` package with benchmarking support  
 **Build System**: Go modules for dependency management
 
+### Frontend
+**Language**: TypeScript — Typed superset of JavaScript for improved developer experience and code quality  
+**Framework**: React 18+ — Component-based UI library with hooks and concurrent features  
+**State Management**: React Context API or Zustand for lightweight state; React Query for server state  
+**Styling**: Tailwind CSS or CSS Modules with consistent design tokens  
+**Build Tool**: Vite — Fast modern build tool with HMR  
+**Testing Framework**: Vitest with React Testing Library  
+**Routing**: React Router v6+ for client-side routing  
+**Forms**: React Hook Form with Zod validation
+
+### Shared
+**API Protocol**: REST over HTTP with JSON payloads  
+**Authentication**: JWT tokens  
+
 **Implications for This Constitution:**
-- All code MUST be formatted with `gofmt` and pass `golangci-lint` with no warnings
-- Go idioms and patterns MUST be preferred over generic approaches (error handling, interfaces, goroutines)
-- All database interactions MUST use prepared statements and connection pooling (e.g., pgx, sqlc)
-- PostgreSQL MUST be the system-of-record for all persistent data
+- **Backend:** All code MUST be formatted with `gofmt` and pass `golangci-lint` with no warnings
+- **Backend:** Go idioms and patterns MUST be preferred over generic approaches (error handling, interfaces, goroutines)
+- **Backend:** All database interactions MUST use prepared statements and connection pooling (e.g., pgx, sqlc)
+- **Backend:** PostgreSQL MUST be the system-of-record for all persistent data
+- **Frontend:** All code MUST pass TypeScript strict mode with no errors
+- **Frontend:** All components MUST have appropriate test coverage
+- **Frontend:** React components MUST follow functional component patterns with hooks
 
 ## Core Principles
 
@@ -36,11 +53,13 @@ Code MUST be written with clarity, maintainability, and robustness as primary co
 **Non-Negotiable Rules:**
 - All code MUST pass automated linting and formatting standards without exception
   - **Go-specific:** `gofmt` MUST be run on all files; `golangci-lint` MUST pass with no errors or warnings
-  - **Style:** Follow Effective Go conventions; use receiver method style; interface{} only when type unknown
+  - **Frontend:** ESLint and Prettier MUST pass with no errors; TypeScript MUST pass strict mode
+  - **Style:** Follow language-specific idioms; prefer interfaces over concretions when type unknown
 - Complexity metrics MUST remain within established thresholds (cyclomatic complexity ≤ 10 per function; max function length 50 lines)
 - Code duplication MUST be eliminated through abstraction and reuse
 - All public APIs MUST have clear, accurate documentation describing purpose, parameters, and return values
   - **Go-specific:** All exported functions/types MUST have godoc comments starting with their name
+  - **Frontend:** All components and hooks MUST have JSDoc comments; prop types MUST be documented
 - Comments MUST explain *why*, not *what*; code should be self-documenting through clear naming
 - Magic numbers and strings MUST be replaced with named constants
 - **Go-specific Error Handling:** Errors MUST be checked and handled explicitly; panic() is prohibited except in unrecoverable conditions
@@ -115,9 +134,9 @@ Performance MUST be a first-class concern from design through implementation.
 
 **Rationale:** Poor performance erodes user experience and system reliability. Performance engineering at design time is exponentially cheaper than post-launch optimization.
 
-### VI. User Experience Consistency (API Perspective)
+### VI. User Experience Consistency
 
-Backend APIs MUST provide predictable, well-documented, and consistent behavior across all endpoints.
+Backend APIs and Frontend applications MUST provide predictable, well-documented, and consistent behavior.
 
 **Non-Negotiable Rules:**
 - All API responses MUST follow consistent naming conventions and structure
@@ -133,8 +152,41 @@ Backend APIs MUST provide predictable, well-documented, and consistent behavior 
   - **Go:** Use time.RFC3339 for serialization; always include timezone; store UTC in database
 - Pagination MUST be consistent across all list endpoints
   - **Format:** `limit`, `offset`, `total` count; optional `has_more` flag; default limit documented
+- Frontend components MUST follow consistent design patterns and naming conventions
+  - **React:** Use functional components with hooks; avoid class components except for legacy code
+  - **Styling:** Use CSS Modules or consistent CSS-in-JS approach; no inline styles except for dynamic values
+  - **State:** Use React Context or appropriate state management; avoid prop drilling beyond 2 levels
+- UI feedback MUST be immediate and consistent across the application
+  - **Loading states:** Show loading indicators for all async operations
+  - **Error states:** Display user-friendly error messages; log technical details for debugging
+  - **Success states:** Confirm successful operations with clear feedback
 
 **Rationale:** Consistency reduces client integration friction, improves developer experience, and minimizes support burden. Well-designed APIs are discoverable without extensive documentation.
+
+### Frontend Service Requirements
+
+The React frontend MUST provide a responsive, accessible, and performant user experience.
+
+**Requirements:**
+- **Accessibility:** All UI MUST be keyboard navigable; support WCAG 2.1 AA standards
+  - **Implementation:** Use semantic HTML elements; ARIA attributes only where HTML semantics insufficient
+  - **Testing:** Include axe-core in automated tests; screen reader testing for critical flows
+- **Responsive Design:** Application MUST work across mobile, tablet, and desktop viewports
+  - **Breakpoints:** Define consistent breakpoints (sm, md, lg, xl); use mobile-first CSS approach
+  - **Testing:** Test on actual devices when possible; use browser DevTools for emulation
+- **Performance:** Frontend load and interaction times MUST be optimized
+  - **Metrics:** LCP < 2.5s, FID < 100ms, CLS < 0.1 (Core Web Vitals)
+  - **Optimization:** Code splitting, lazy loading, image optimization, caching strategies
+  - **React-specific:** Memoize expensive computations; virtualize long lists; avoid unnecessary re-renders
+- **Error Boundaries:** React error boundaries MUST handle component crashes gracefully
+  - **Fallback:** Show user-friendly error message; log technical details
+  - **Recovery:** Provide retry mechanism when possible
+- **Type Safety:** TypeScript strict mode MUST be enabled with no errors
+  - **Configuration:** `strict: true`, `noImplicitAny: true`, `strictNullChecks: true`
+  - **Types:** Define shared types with backend API contracts; avoid `any` type
+- **API Integration:** HTTP client MUST handle errors, loading states, and retries consistently
+  - **Patterns:** Centralize API calls in custom hooks or services; handle 4xx/5xx responses
+  - **Authentication:** Store tokens securely; refresh expired tokens automatically
 
 ## Backend Service Requirements
 
@@ -278,4 +330,4 @@ Constitution versions follow Semantic Versioning (MAJOR.MINOR.PATCH):
 
 ---
 
-**Version**: 1.1.0 | **Ratified**: 2026-04-25 | **Last Amended**: 2026-04-25
+**Version**: 1.3.0 | **Ratified**: 2026-04-25 | **Last Amended**: 2026-04-26
